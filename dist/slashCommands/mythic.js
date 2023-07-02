@@ -28,15 +28,15 @@ exports.command = {
             if (message.author.username === "JoBot")
                 message.delete();
         });
-        const KeyFocus = Number(interaction.options.get('levelkey').value.toString());
+        const keyFocus = Number(interaction.options.get('levelkey').value.toString());
         let memberGuild;
         let dungeonMythic = [];
         const resGuilde = yield fetch(`https://raider.io/api/v1/guilds/profile?region=eu&realm=elune&name=%C3%89dition%20Limit%C3%A9e&fields=members`);
         const guild = yield resGuilde.json();
-        const members = guild.members.filter(member => member.rank >= 4 && member.rank <= 6);
+        const members = guild.members.filter(member => member.rank === 0 || member.rank === 2 || member.rank >= 4 && member.rank <= 6);
         let embed = new discord_js_1.EmbedBuilder()
             .setColor(0x0099FF)
-            .setTitle(`Mythique : `);
+            .setTitle(`Mythique ${keyFocus}+ :`);
         for (const member of members) {
             dungeonMythic = [];
             memberGuild = member.character.name;
@@ -56,7 +56,7 @@ exports.command = {
                     const mois = date.getMonth() + 1; // Notez que les mois sont indexés à partir de 0
                     const annee = date.getFullYear();
                     const dateJavaScript = jour + "/" + mois + "/" + annee;
-                    if (levelData > KeyFocus)
+                    if (levelData >= keyFocus)
                         dungeonMythic.push(`${levelData} - ${dungeonData} => ${dateJavaScript}\u200B`);
                 });
                 if (dungeonMythic.length === 0) {

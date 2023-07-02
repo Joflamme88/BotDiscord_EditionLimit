@@ -24,7 +24,7 @@ export const command : SlashCommand = {
       }
     )
  
-    const KeyFocus = Number(interaction.options.get('levelkey').value.toString());
+    const keyFocus = Number(interaction.options.get('levelkey').value.toString());
    
     let memberGuild;
     let dungeonMythic = [];
@@ -32,11 +32,11 @@ export const command : SlashCommand = {
     const resGuilde = await fetch(`https://raider.io/api/v1/guilds/profile?region=eu&realm=elune&name=%C3%89dition%20Limit%C3%A9e&fields=members`)
     const guild = await resGuilde.json()
     
-    const members = guild.members.filter(member =>  member.rank >= 4 && member.rank <= 6);
+    const members = guild.members.filter(member => member.rank === 0 || member.rank === 2 || member.rank >= 4 && member.rank <= 6);
     
     let embed = new EmbedBuilder()
     .setColor(0x0099FF)
-    .setTitle(`Mythique : `)
+    .setTitle(`Mythique ${keyFocus}+ :`)
     
     for (const member of members) {
       dungeonMythic = [];
@@ -64,7 +64,7 @@ export const command : SlashCommand = {
           const dateJavaScript = jour + "/" + mois + "/" + annee;
           
           
-          if(levelData > KeyFocus) dungeonMythic.push(`${levelData} - ${dungeonData} => ${dateJavaScript}\u200B`);
+          if(levelData >= keyFocus) dungeonMythic.push(`${levelData} - ${dungeonData} => ${dateJavaScript}\u200B`);
           
         });
              
