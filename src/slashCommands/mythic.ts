@@ -1,6 +1,6 @@
 import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../../@types/types";
-import { Character } from "../../@types/mythicTypes";
+import { Character, Guild } from "../../@types/membersTypes";
 
 export const command : SlashCommand = {
   name: 'mythic',
@@ -15,22 +15,14 @@ export const command : SlashCommand = {
   }),
 
   execute: async (interaction) => {
-    const messages = await interaction.channel.messages.fetch({limit: 1});
-
-    messages.forEach((message)=>{
-    if(message.author.username === "JoBot")
-      message.delete()
-
-      }
-    )
- 
+    
     const keyFocus = Number(interaction.options.get('levelkey').value.toString());
    
-    let memberGuild;
+    let memberGuild : string = '';
     let dungeonMythic = [];
     
     const resGuilde = await fetch(`https://raider.io/api/v1/guilds/profile?region=eu&realm=elune&name=%C3%89dition%20Limit%C3%A9e&fields=members`)
-    const guild = await resGuilde.json()
+    const guild : Guild = await resGuilde.json()
     
     const members = guild.members.filter(member => member.rank === 0 || member.rank === 2 || member.rank >= 4 && member.rank <= 6);
     
@@ -76,6 +68,16 @@ export const command : SlashCommand = {
        
       }
     }
+
+     // ----- Start Interaction -----//
+     const messages = await interaction.channel.messages.fetch({limit: 1});
+
+     messages.forEach((message)=>{
+     if(message.author.username === "JoBot")
+       message.delete()
+       }
+     )
+
     await interaction.reply({ embeds: [embed] })
   }
 }

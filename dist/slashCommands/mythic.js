@@ -23,13 +23,8 @@ exports.command = {
             .setRequired(true);
     }),
     execute: (interaction) => __awaiter(void 0, void 0, void 0, function* () {
-        const messages = yield interaction.channel.messages.fetch({ limit: 1 });
-        messages.forEach((message) => {
-            if (message.author.username === "JoBot")
-                message.delete();
-        });
         const keyFocus = Number(interaction.options.get('levelkey').value.toString());
-        let memberGuild;
+        let memberGuild = '';
         let dungeonMythic = [];
         const resGuilde = yield fetch(`https://raider.io/api/v1/guilds/profile?region=eu&realm=elune&name=%C3%89dition%20Limit%C3%A9e&fields=members`);
         const guild = yield resGuilde.json();
@@ -67,6 +62,12 @@ exports.command = {
                 }
             }
         }
+        // ----- Start Interaction -----//
+        const messages = yield interaction.channel.messages.fetch({ limit: 1 });
+        messages.forEach((message) => {
+            if (message.author.username === "JoBot")
+                message.delete();
+        });
         yield interaction.reply({ embeds: [embed] });
     })
 };

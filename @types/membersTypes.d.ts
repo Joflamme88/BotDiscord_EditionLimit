@@ -21,6 +21,21 @@ export interface Mythic {
   url: string
 }
 
+export interface Member {
+  rank: number
+  character: Character
+}
+
+export interface Guild {
+  name: string
+  faction: string
+  region: string
+  realm: string
+  last_crawled_at: string
+  profile_url: string
+  members: Member[]
+}
+
 export interface Character {
   name: string
   race: string
