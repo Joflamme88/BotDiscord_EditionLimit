@@ -53,5 +53,6 @@ export interface Character {
   profile_url: string
   profile_banner: string
   mythic_plus_weekly_highest_level_runs: Mythic[]
+  mythic_plus_previous_weekly_highest_level_runs: Mythic[]
 }
 

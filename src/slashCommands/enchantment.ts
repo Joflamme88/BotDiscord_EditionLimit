@@ -2,6 +2,7 @@ import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../../@types/types";
 import { Character } from "../../@types/enchantment";
 import { Guild } from "../../@types/membersTypes";
+import fetchData from "../utils/fetchData";
 
 export const command : SlashCommand = {
   name: 'enchant',
@@ -10,12 +11,15 @@ export const command : SlashCommand = {
     .setDescription('Liste des enchantements manquants'),
     
   execute: async (interaction) => {
+
+    const messages = await interaction.channel.messages.fetch({limit: 1});
     
     let memberGuild : string = '';
     let listMemberNoEnchant = [];
     
-    const resGuilde = await fetch(`https://raider.io/api/v1/guilds/profile?region=eu&realm=elune&name=%C3%89dition%20Limit%C3%A9e&fields=members`)
-    const guild : Guild = await resGuilde.json()
+    await interaction.deferReply();
+    
+    const guild : Guild = await fetchData(`https://raider.io/api/v1/guilds/profile?region=eu&realm=elune&name=%C3%89dition%20Limit%C3%A9e&fields=members`)
     
 
     const members = guild.members.filter(member => member.rank === 0 || member.rank === 2 || member.rank >= 4 && member.rank <= 6);    
@@ -30,8 +34,7 @@ export const command : SlashCommand = {
 
 
       
-      const resPerso = await fetch(`https://raider.io/api/v1/characters/profile?region=eu&realm=elune&name=${memberGuild}&fields=gear`)
-      const characters : Character = await resPerso.json()
+      const characters : Character  = await fetchData(`https://raider.io/api/v1/characters/profile?region=eu&realm=elune&name=${memberGuild}&fields=gear`)
       
       
       let stuffNoEnchante = '';
@@ -67,21 +70,19 @@ export const command : SlashCommand = {
       } 
 
       if (listMemberNoEnchant.length === 0) {
-        embed.addFields({ name: `${characters.name} :`, value: 'Enchentement => OK\u200B', inline: false });
+        embed.addFields({ name: `${characters.name} :`, value: 'Enchantement => OK\u200B', inline: false });
       } else {
         embed.addFields({ name: `${characters.name} :`, value: listMemberNoEnchant.join('\n'), inline: false });
-      }   
+      }  
     }
 
-    // ----- Start Interaction -----//
-      const messages = await interaction.channel.messages.fetch({limit: 1});
-
-      messages.forEach((message)=>{
-      if(message.author.username === "JoBot")
-        message.delete()
-        }
-      )
-
-      await interaction.reply({ embeds: [embed] })
+      if(messages){
+        messages.forEach((message)=>{
+          if(message.interaction.commandName === "enchant")
+          message.delete()
+        })
+      }
+      await interaction.editReply({ embeds: [embed] });
+     
   }
 }

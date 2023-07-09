@@ -10,7 +10,7 @@ module.exports = async (client : Client) => {
   readdirSync(slashCommandsDir).forEach(file => {
     if(!file.endsWith('.js')) return
     
-    const command: SlashCommand= require(`${slashCommandsDir}/${file}`).command;
+    const command: SlashCommand = require(`${slashCommandsDir}/${file}`).command;
 
     body.push(command.data.toJSON());
     client.slashCommands.set(command.name, command)

@@ -16,10 +16,10 @@ exports.command = void 0;
 const discord_js_1 = require("discord.js");
 const fetchData_1 = __importDefault(require("../utils/fetchData"));
 exports.command = {
-    name: 'mythic',
+    name: 'mythicprevious',
     data: new discord_js_1.SlashCommandBuilder()
-        .setName('mythic')
-        .setDescription('Liste des MM+ de la semaine')
+        .setName('mythicprevious')
+        .setDescription('Liste des MM+ de la semaine précédente')
         .addStringOption((option) => {
         return option
             .setName('keylevel')
@@ -40,12 +40,12 @@ exports.command = {
         for (const member of members) {
             dungeonMythic = [];
             memberGuild = member.character.name;
-            const characters = yield (0, fetchData_1.default)(`https://raider.io/api/v1/characters/profile?region=eu&realm=Elune&name=${memberGuild}&fields=mythic_plus_weekly_highest_level_runs`);
-            if (characters.mythic_plus_weekly_highest_level_runs.length === 0) {
+            const characters = yield (0, fetchData_1.default)(`https://raider.io/api/v1/characters/profile?region=eu&realm=Elune&name=${memberGuild}&fields=mythic_plus_previous_weekly_highest_level_runs`);
+            if (characters.mythic_plus_previous_weekly_highest_level_runs.length === 0) {
                 embed.addFields({ name: `${characters.name} :`, value: `Pas de MM+ fait cette semaine\u200B`, inline: false });
             }
             else {
-                characters.mythic_plus_weekly_highest_level_runs.forEach((mythic) => {
+                characters.mythic_plus_previous_weekly_highest_level_runs.forEach((mythic) => {
                     const dungeonData = mythic.dungeon;
                     const levelData = mythic.mythic_level;
                     const dateData = mythic.completed_at;
@@ -59,7 +59,7 @@ exports.command = {
                         dungeonMythic.push(`${levelData} - ${dungeonData} => ${dateJavaScript}\u200B`);
                 });
                 if (dungeonMythic.length === 0) {
-                    embed.addFields({ name: `${characters.name} :`, value: 'Pas de MM+ fait cette semaine\u200B', inline: false });
+                    embed.addFields({ name: `${characters.name} :`, value: 'Pas de MM+ fait la semaine dernière\u200B', inline: false });
                 }
                 else {
                     embed.addFields({ name: `${characters.name} :`, value: dungeonMythic.join('\n'), inline: false });
@@ -68,7 +68,7 @@ exports.command = {
         }
         if (messages) {
             messages.forEach((message) => {
-                if (message.interaction.commandName === "mythic")
+                if (message.interaction.commandName === "mythicprevious")
                     message.delete();
             });
         }
