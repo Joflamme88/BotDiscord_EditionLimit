@@ -1,1 +1,1 @@
-Check enchantments and Mythics on members of my guild: World Of Warcraft
+BotDiscord check enchant/dungeon all members :  World Of Warcraft
