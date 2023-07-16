@@ -12,7 +12,8 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "nodemon -L server.js",
-    "build": "npx tsc --watch"
+    "build": "npx tsc",
+    "devBuild": "npx tsc --watch"
   },
   "dependencies": {
     "-": "^0.0.1",
