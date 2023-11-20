@@ -55,7 +55,7 @@ export const command : SlashCommand = {
           // ------ Transform Date format ------- //
           const date = new Date(dateData);
           const jour = date.getDate();
-          const mois = date.getMonth() + 1; // Notez que les mois sont indexés à partir de 0
+          const mois = date.getMonth() + 1;
           const annee = date.getFullYear();
           const dateJavaScript = jour + "/" + mois + "/" + annee;
           
