@@ -20,7 +20,6 @@ export const command : SlashCommand = {
     const keyLevel = Number(interaction.options.get('keylevel').value.toString());
 
     const messages = await interaction.channel.messages.fetch({limit: 1});
-    
 
     let memberGuild : string = '';
     let dungeonMythic = [];
@@ -31,9 +30,11 @@ export const command : SlashCommand = {
     
     const members = guild.members.filter(member => member.rank === 0 || member.rank === 2 || member.rank >= 4 && member.rank <= 6);
     
+    const dateNow =  new Date().toLocaleString()
+
     let embed = new EmbedBuilder()
     .setColor(0x0099FF)
-    .setTitle(`Mythique ${keyLevel}+ :`)
+    .setTitle(`Mythiques ${keyLevel}+ : ${dateNow}`)
     
     for (const member of members) {
       dungeonMythic = [];
