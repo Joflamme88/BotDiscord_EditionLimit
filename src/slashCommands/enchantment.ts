@@ -78,7 +78,7 @@ export const command : SlashCommand = {
 
       if(messages){
         messages.forEach((message)=>{
-          if(message.interaction.commandName === "enchant")
+          if(message.interaction &&  message.interaction.commandName === "enchant")
           message.delete()
         })
       }
