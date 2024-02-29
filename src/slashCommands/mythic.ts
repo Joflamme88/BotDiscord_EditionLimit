@@ -76,7 +76,7 @@ export const command : SlashCommand = {
 
     if(messages){
       messages.forEach((message)=>{
-        if(message.interaction.commandName === "mythic")
+        if(message.interaction && message.interaction.commandName === "mythic")
         message.delete()
       })
     }
