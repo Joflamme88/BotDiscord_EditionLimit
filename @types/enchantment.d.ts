@@ -15,6 +15,8 @@ export interface Character {
   profile_url: string
   profile_banner: string
   gear: Gear
+  mythic_plus_weekly_highest_level_runs: Mythic[]
+  mythic_plus_previous_weekly_highest_level_runs: Mythic[]
 }
 
 export interface Gear {
@@ -149,4 +151,27 @@ export interface Mainhand {
   is_azerite_armor: boolean
   gems: number[]
   bonuses: number[]
+}
+
+export interface Affix {
+  id: number
+  name: string
+  description: string
+  icon: string
+  wowhead_url: string
+}
+
+export interface Mythic {
+  dungeon: string
+  short_name: string
+  mythic_level: number
+  completed_at: string
+  clear_time_ms: number
+  par_time_ms: number
+  num_keystone_upgrades: number
+  map_challenge_mode_id: number
+  zone_id: number
+  score: number
+  affixes: Affix[]
+  url: string
 }
