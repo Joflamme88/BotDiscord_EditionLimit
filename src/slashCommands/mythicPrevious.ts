@@ -30,9 +30,12 @@ export const command : SlashCommand = {
      // list guild raider member
      const members = await guildMember()
 
+     const dateNow =  new Date().toLocaleString()
+
+
      let embed = new EmbedBuilder()
     .setColor(0x0099FF)
-    .setTitle(`Mythique ${keyLevel}+ :`)
+    .setTitle(`Mythique ${keyLevel}+ : ${dateNow}`)
     
     for (const member of members) {
       dungeonMythic = [];
