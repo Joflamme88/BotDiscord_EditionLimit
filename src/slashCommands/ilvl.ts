@@ -1,8 +1,9 @@
 
 import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../../@types/types";
-import { Character, Guild } from "../../@types/membersTypes";
-import  fetchData  from "../utils/fetchData"
+
+import { guildMember } from "../components/find-guild-member";
+import { findCharacter } from "../components/find-character";
 
 export const command : SlashCommand = {
   name: 'ilvl',
@@ -15,33 +16,37 @@ export const command : SlashCommand = {
 
       const messages = await interaction.channel.messages.fetch({limit: 1});
       
-      let memberGuild : string = '';
-      let listMemberNoEnchant = [];
-      
       await interaction.deferReply();
-      
-      const guild : Guild = await fetchData(`https://raider.io/api/v1/guilds/profile?region=eu&realm=elune&name=%C3%89dition%20Limit%C3%A9e&fields=members`)
-      
-  
-      const members = guild.members.filter(member => member.rank === 0 || member.rank === 2 || member.rank >= 4 && member.rank <= 6);    
+   
+      // list guild raider member
+      const members = await guildMember()
   
       let embed = new EmbedBuilder()
       .setColor(0x0099FF)
-      .setTitle(`Enchantement manquants :`)
+      .setTitle(`Ilvl :`)
       
       for (const member of members) {
-        listMemberNoEnchant = [];
-        memberGuild = member.character.name
+       let ilvlData : number = 0;
+       const fields = "gear"
   
   
-        
-        const characters : Character  = await fetchData(`https://raider.io/api/v1/characters/profile?region=eu&realm=elune&name=${memberGuild}&fields=gear`)
-        
-        
-        
+        // find character details by realm and memberName
+        const characters = await findCharacter(member.character.realm,member.character.name,fields)
+
   
-        
-  
-      }
+        ilvlData = characters.gear.item_level_equipped
+          
+        embed.addFields({ name: `${characters.name} :`, value: ilvlData.toString(), inline: false });
+
+
+        if(messages){
+          messages.forEach((message)=>{
+            if(message.interaction &&  message.interaction.commandName === "Ilvl")
+            message.delete()
+          })
+        }
+        await interaction.editReply({ embeds: [embed] });
+       
     }
+  }
 }
