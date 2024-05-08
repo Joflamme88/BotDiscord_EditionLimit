@@ -35,11 +35,11 @@ export const command : SlashCommand = {
 
      let embed = new EmbedBuilder()
     .setColor(0x0099FF)
-    .setTitle(`Mythique ${keyLevel}+ : ${dateNow}`)
+    .setTitle(`Mythique semaine précédente ${keyLevel}+ : ${dateNow}`)
     
     for (const member of members) {
       dungeonMythic = [];
-      const fields = "mythic_plus_weekly_highest_level_runs"
+      const fields = "mythic_plus_previous_weekly_highest_level_runs"
 
     // find character details by realm and memberName
     const characters = await findCharacter(member.character.realm,member.character.name,fields)
