@@ -37,6 +37,7 @@ export const command : SlashCommand = {
         ilvlData = characters.gear.item_level_equipped
           
         embed.addFields({ name: `${characters.name} :`, value: ilvlData.toString(), inline: false });
+      }
 
 
         if(messages){
@@ -47,6 +48,5 @@ export const command : SlashCommand = {
         }
         await interaction.editReply({ embeds: [embed] });
        
-    }
   }
 }
