@@ -42,7 +42,7 @@ export const command : SlashCommand = {
 
         if(messages){
           messages.forEach((message)=>{
-            if(message.interaction &&  message.interaction.commandName === "Ilvl")
+            if(message.interaction &&  message.interaction.commandName === "ilvl")
             message.delete()
           })
         }
