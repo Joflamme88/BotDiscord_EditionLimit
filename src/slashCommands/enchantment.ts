@@ -18,10 +18,12 @@ export const command : SlashCommand = {
  
     // list guild raider member
     const members = await guildMember()
+    const dateNow =  new Date().toLocaleString()
+
 
     let embed = new EmbedBuilder()
     .setColor(0x0099FF)
-    .setTitle(`Enchantement manquants :`)
+    .setTitle(`Enchantement manquants : ${dateNow}`)
     
     for (const member of members) {
      let  listMemberNoEnchant = [];
