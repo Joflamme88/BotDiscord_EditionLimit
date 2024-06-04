@@ -39,6 +39,7 @@ export const command : SlashCommand = {
           
         embed.addFields({ name: `${characters.name} :`, value: ilvlData.toString(), inline: false });
 
+      }
 
         if(messages){
           messages.forEach((message)=>{
@@ -48,6 +49,5 @@ export const command : SlashCommand = {
         }
         await interaction.editReply({ embeds: [embed] });
        
-    }
   }
 }
